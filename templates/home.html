@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1>Ask About PR Sentiment!!</h1>
+        <form method="post">
+            <label for="question">Your Question</label>
+            <textarea name="question" rows="5" cols="60" placeholder="How has Apple been performing since June 1st 2025?" required></textarea><br><br>
+            <button type="submit">Submit</button>
+        </form>
+        {% if question %}
+            <h2>Question:</h2>
+            <p>{{question}}</p>
+
+            <h2>AI Response:</h2>
+            <p>{{response}}</p>
+        {% endif %}
+    </head>
+</html>
