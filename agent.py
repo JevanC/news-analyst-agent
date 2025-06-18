@@ -11,6 +11,9 @@ from langchain_tavily import TavilySearch
 from langgraph.prebuilt import create_react_agent
 from transformers import pipeline
 import database
+from langgraph.graph import START, MessagesState, StateGraph
+
+workflow = StateGraph(state_schema=MessagesState)
 
 load_dotenv()
 model = init_chat_model("gemini-2.0-flash", model_provider="google_genai")
@@ -119,7 +122,8 @@ basic_search_tool = TavilySearch(
     # exclude_domains=None
 )
 
-def run_agent(message):
+    
+def create_agent():
     today = date.today().strftime("%B %d, %Y")
     agent_executor = create_react_agent(
         model=model, 
@@ -139,5 +143,7 @@ def run_agent(message):
             "OUTPUT SHOULD BE A GENERAL SUMMARY OF WHATEVER THE QUESTION IS, DO NOT GIVE AN ARTICLE BY ARTICLE SUMMARY, ALSO MAKE SURE THE SENTIMENTS ARE SCALED"
         )
     )
+    return agent_executor
+def run_agent(agent_executor, message):
     return agent_executor.invoke({"messages": [{"role": "user", "content": message}]})
 
